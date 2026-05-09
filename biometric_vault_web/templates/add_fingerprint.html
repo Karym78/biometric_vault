@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-grid">
+    <div class="scanner-hero">
+        <p class="eyebrow">Biometric Enrollment</p>
+        <h1>Add another fingerprint</h1>
+        <p class="lead">Register another finger for {{ user.username }}. Any enrolled fingerprint can authenticate the account.</p>
+        <div class="scanner-frame" aria-hidden="true">
+            <div class="scan-line"></div>
+            <img src="{{ url_for('static', filename='uploads/demo_fingerprint2.png') }}" alt="">
+        </div>
+    </div>
+    <form class="panel" method="post" enctype="multipart/form-data">
+        <label for="label">Fingerprint label</label>
+        <input id="label" name="label" type="text" placeholder="Right thumb, left index, backup finger">
+
+        <label for="fingerprint">Fingerprint image</label>
+        <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
+
+        <button type="submit">Add fingerprint</button>
+        <p class="form-note">The image is hashed for matching and a watermarked copy is stored for proof of ownership.</p>
+    </form>
+</section>
+{% endblock %}

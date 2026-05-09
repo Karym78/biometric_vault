@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Dashboard</p>
+        <h1>Welcome, {{ user.username }}</h1>
+    </div>
+    <a class="primary-link-button" href="{{ url_for('add_fingerprint') }}">Add New Fingerprint</a>
+</section>
+
+<section class="scanner-status">
+    <div>
+        <span>Identity</span>
+        <strong>{{ user.username }}</strong>
+    </div>
+    <div>
+        <span>Fingerprints</span>
+        <strong>{{ fingerprints|length }}</strong>
+    </div>
+    <div>
+        <span>Vault mode</span>
+        <strong>AES-256-GCM</strong>
+    </div>
+</section>
+
+<section class="actions">
+    <a class="action-card" href="{{ url_for('encrypt') }}">
+        <span>Encrypt File</span>
+        <strong>AES-256-GCM</strong>
+    </a>
+    <a class="action-card" href="{{ url_for('decrypt') }}">
+        <span>Decrypt File</span>
+        <strong>Fingerprint required</strong>
+    </a>
+    <a class="action-card" href="{{ url_for('logs') }}">
+        <span>View Logs</span>
+        <strong>Audit trail</strong>
+    </a>
+    <a class="action-card" href="{{ url_for('add_fingerprint') }}">
+        <span>Add Fingerprint</span>
+        <strong>Multiple enrolled fingers</strong>
+    </a>
+    <a class="action-card" href="{{ url_for('attack') }}">
+        <span>Attack Simulation</span>
+        <strong>3 failures block user</strong>
+    </a>
+</section>
+
+<section class="panel wide">
+    <div class="panel-title-row">
+        <h2>Registered fingerprints</h2>
+        <a class="small-link-button" href="{{ url_for('add_fingerprint') }}">Add fingerprint</a>
+    </div>
+    {% if fingerprints %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Watermarked image</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fingerprint in fingerprints %}
+                    <tr>
+                        <td>{{ fingerprint.label or "Fingerprint" }}</td>
+                        <td>{{ "Primary" if fingerprint.is_primary else "Additional" }}</td>
+                        <td>{{ fingerprint.watermarked_image_path }}</td>
+                        <td>{{ fingerprint.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty">No fingerprints registered.</p>
+    {% endif %}
+</section>
+
+<section class="panel wide">
+    <h2>Encrypted files</h2>
+    {% if files %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Original file</th>
+                    <th>Encrypted path</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.original_filename }}</td>
+                        <td>{{ file.encrypted_path }}</td>
+                        <td>{{ file.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty">No encrypted files yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

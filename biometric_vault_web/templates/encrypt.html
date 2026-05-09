@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <p class="eyebrow">Vault Operation</p>
+    <h1>Encrypt a file</h1>
+</section>
+
+<form class="panel form-page" method="post" enctype="multipart/form-data">
+    <label for="document">File to encrypt</label>
+    <input id="document" name="document" type="file" required>
+
+    <label for="fingerprint">Fingerprint verification image</label>
+    <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
+
+    <button type="submit">Encrypt file</button>
+</form>
+{% endblock %}

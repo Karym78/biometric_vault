@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <p class="eyebrow">Vault Operation</p>
+    <h1>Decrypt a vault file</h1>
+</section>
+
+<form class="panel form-page" method="post" enctype="multipart/form-data">
+    <label for="file_id">Encrypted file</label>
+    <select id="file_id" name="file_id" required>
+        <option value="">Select one of your encrypted files</option>
+        {% for file in files %}
+            <option value="{{ file.id }}">{{ file.original_filename }} - {{ file.created_at }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="fingerprint">Fingerprint verification image</label>
+    <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
+
+    <button type="submit">Decrypt file</button>
+</form>
+
+{% if files %}
+<section class="panel wide">
+    <h2>Your encrypted files</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Original file</th>
+                <th>Encrypted path</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+                <tr>
+                    <td>{{ file.original_filename }}</td>
+                    <td>{{ file.encrypted_path }}</td>
+                    <td>{{ file.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+{% endblock %}

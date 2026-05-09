@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-grid">
+    <div class="scanner-hero danger-hero">
+        <p class="eyebrow">Attack Simulation</p>
+        <h1>Test wrong fingerprint attempts</h1>
+        <p class="lead">Upload an incorrect fingerprint for an existing username. After three failed attempts, the account is blocked.</p>
+        <div class="scanner-frame" aria-hidden="true">
+            <div class="scan-line"></div>
+            <img src="{{ url_for('static', filename='uploads/demo_fingerprint2.png') }}" alt="">
+        </div>
+    </div>
+    <form class="panel" method="post" enctype="multipart/form-data">
+        <label for="username">Target username</label>
+        <input id="username" name="username" type="text" required>
+
+        <label for="fingerprint">Test fingerprint image</label>
+        <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
+
+        <button type="submit">Run verification attempt</button>
+    </form>
+</section>
+{% endblock %}

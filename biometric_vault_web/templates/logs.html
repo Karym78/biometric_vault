@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <p class="eyebrow">Security Audit</p>
+    <h1>Logs and alerts</h1>
+</section>
+
+<section class="panel wide">
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>User</th>
+                <th>Operation</th>
+                <th>Status</th>
+                <th>Message</th>
+                <th>Hash</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log.created_at }}</td>
+                    <td>{{ log.username or "" }}</td>
+                    <td>{{ log.operation }}</td>
+                    <td><span class="status {{ log.status|lower }}">{{ log.status }}</span></td>
+                    <td>{{ log.message }}</td>
+                    <td>{{ log.log_hash[:16] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

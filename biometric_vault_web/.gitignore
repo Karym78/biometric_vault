@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+data/database/*.db
+data/fingerprints/*
+data/watermarked/*
+data/encrypted_files/*
+data/decrypted_files/*
+static/uploads/*
+!data/fingerprints/.gitkeep
+!data/watermarked/.gitkeep
+!data/encrypted_files/.gitkeep
+!data/decrypted_files/.gitkeep
+!data/database/.gitkeep
+!static/uploads/demo_fingerprint1.png
+!static/uploads/demo_fingerprint2.png
+!static/uploads/demo_secret.txt
