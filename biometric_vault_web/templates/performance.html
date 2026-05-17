@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Performance</p>
+        <h1>FAR / FRR control</h1>
+        <p class="lead">The threshold controls the biometric decision. A high threshold reduces false accepts but increases false rejects; a low threshold does the opposite.</p>
+    </div>
+</section>
+
+<form class="panel form-page" method="post">
+    <label for="security_level">Security level</label>
+    <select id="security_level" name="security_level">
+        {% for row in rows %}
+            <option value="{{ row.level }}" {% if row.level == security_level %}selected{% endif %}>{{ row.level|title }} - threshold {{ row.threshold }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Apply threshold</button>
+    <p class="form-note">Current threshold: {{ threshold }}</p>
+</form>
+
+<section class="panel wide">
+    <h2>Threshold table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Level</th>
+                <th>Threshold</th>
+                <th>FAR</th>
+                <th>FRR</th>
+                <th>Use case</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row.level|title }}</td>
+                <td>{{ row.threshold }}</td>
+                <td>{{ row.far }}</td>
+                <td>{{ row.frr }}</td>
+                <td>{{ row.use_case }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel wide">
+    <h2>Course interpretation</h2>
+    <div class="metric-list">
+        <span>FAR</span><strong>Impostors accepted / all impostor attempts</strong>
+        <span>FRR</span><strong>Genuine users rejected / all genuine attempts</strong>
+        <span>EER</span><strong>Point where FAR and FRR are approximately equal</strong>
+        <span>ROC</span><strong>Curve showing the decision tradeoff for all thresholds</strong>
+    </div>
+</section>
+{% endblock %}

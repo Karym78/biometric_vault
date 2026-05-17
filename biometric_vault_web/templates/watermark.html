@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">LSB Watermark</p>
+        <h1>Extract hidden fingerprint data</h1>
+        <p class="lead">The system stores a watermarked copy of each enrolled fingerprint and can verify its hidden message.</p>
+    </div>
+    <a class="small-link-button" href="{{ url_for('watermark_evaluation') }}">Evaluate metrics</a>
+</section>
+
+<form class="panel form-page" method="post">
+    <label for="fingerprint_id">Registered fingerprint</label>
+    <select id="fingerprint_id" name="fingerprint_id" required>
+        {% for fingerprint in fingerprints %}
+            <option value="{{ fingerprint.id }}">{{ fingerprint.label or "Fingerprint" }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Extract watermark</button>
+</form>
+
+{% if message %}
+<section class="analysis-grid wide">
+    <div class="panel">
+        <h2>Watermarked image</h2>
+        <img class="preview-image" src="{{ image_url }}" alt="Watermarked fingerprint">
+    </div>
+    <div class="panel">
+        <h2>Status</h2>
+        <p class="{{ 'ok-text' if valid else 'danger-text' }}">{{ "VALID" if valid else "CORRUPTED" }}</p>
+        <pre class="code-box">{{ message }}</pre>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

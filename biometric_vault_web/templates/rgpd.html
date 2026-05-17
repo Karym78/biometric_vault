@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">RGPD</p>
+        <h1>Privacy and consent</h1>
+        <p class="lead">This demo applies the basic RGPD principles expected for biometric data handling.</p>
+    </div>
+</section>
+
+<section class="panel wide">
+    <table>
+        <thead>
+            <tr>
+                <th>Principle</th>
+                <th>Project implementation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Consent</td><td>Registration requires explicit consent before storing a biometric template.</td></tr>
+            <tr><td>Minimization</td><td>Login uses hashes and watermarked copies instead of exposing the raw fingerprint as the credential.</td></tr>
+            <tr><td>Security</td><td>Files are encrypted with AES-256-GCM and biometric access is blocked after repeated failures.</td></tr>
+            <tr><td>Accountability</td><td>Security actions are recorded in SQLite logs.</td></tr>
+            <tr><td>Transparency</td><td>The dashboard shows where hashes, watermarked images and encrypted files are stored.</td></tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

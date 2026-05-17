@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Biometric Matching</p>
+        <h1>Fingerprint analysis</h1>
+        <p class="lead">Upload a test fingerprint to show the course pipeline: preprocessing, Crossing Number minutiae extraction, score calculation, threshold and decision.</p>
+    </div>
+</section>
+
+<form class="panel form-page" method="post" enctype="multipart/form-data">
+    <label for="fingerprint">Test fingerprint image</label>
+    <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
+    <button type="submit">Analyse fingerprint</button>
+</form>
+
+{% if result %}
+<section class="analysis-grid wide">
+    <div class="panel">
+        <h2>Original upload</h2>
+        <img class="preview-image" src="{{ original_url }}" alt="Original fingerprint">
+    </div>
+    <div class="panel">
+        <h2>Preprocessed image</h2>
+        <img class="preview-image" src="{{ preprocessed_url }}" alt="Preprocessed fingerprint">
+    </div>
+    <div class="panel">
+        <h2>Matching result</h2>
+        <div class="metric-list">
+            <span>Nref</span><strong>{{ result.nref }}</strong>
+            <span>Ntest</span><strong>{{ result.ntest }}</strong>
+            <span>Nmatch</span><strong>{{ result.nmatch }}</strong>
+            <span>Method</span><strong>{{ result.method }}</strong>
+            <span>Endings ref/test</span><strong>{{ result.reference_endings }} / {{ result.test_endings }}</strong>
+            <span>Bifurcations ref/test</span><strong>{{ result.reference_bifurcations }} / {{ result.test_bifurcations }}</strong>
+            <span>Spatial tolerance</span><strong>{{ result.spatial_tolerance }} px</strong>
+            <span>Score min</span><strong>{{ result.score_min }}</strong>
+            <span>Score Dice</span><strong>{{ result.score_dice }}</strong>
+            <span>Score geometric</span><strong>{{ result.score_geo }}</strong>
+            <span>Final similarity score</span><strong>{{ result.score }}</strong>
+            <span>Threshold</span><strong>{{ result.threshold }}</strong>
+            <span>Decision</span>
+            <strong class="{{ 'ok-text' if result.decision else 'danger-text' }}">{{ "ACCESS GRANTED" if result.decision else "ACCESS DENIED" }}</strong>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

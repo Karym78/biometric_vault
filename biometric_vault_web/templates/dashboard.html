@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="section-head">
+<section class="dashboard-hero">
     <div>
         <p class="eyebrow">Dashboard</p>
         <h1>Welcome, {{ user.username }}</h1>
+        <p class="lead">Central control for biometric access, encrypted files, watermark validation and security demo tools.</p>
+        <div class="hero-actions">
+            <a class="primary-link-button" href="{{ url_for('encrypt') }}">Encrypt file</a>
+            <a class="small-link-button ghost-button" href="{{ url_for('decrypt') }}">Decrypt file</a>
+        </div>
     </div>
-    <a class="primary-link-button" href="{{ url_for('add_fingerprint') }}">Add New Fingerprint</a>
+    <div class="scanner-card" aria-hidden="true">
+        <div class="scan-line"></div>
+        <img src="{{ url_for('static', filename='uploads/demo_fingerprint1.png') }}" alt="">
+    </div>
 </section>
 
 <section class="scanner-status">
@@ -22,29 +30,43 @@
         <span>Vault mode</span>
         <strong>AES-256-GCM</strong>
     </div>
+    <div>
+        <span>Security threshold</span>
+        <strong>{{ security_level }} / {{ threshold }}</strong>
+    </div>
 </section>
 
-<section class="actions">
-    <a class="action-card" href="{{ url_for('encrypt') }}">
-        <span>Encrypt File</span>
-        <strong>AES-256-GCM</strong>
-    </a>
-    <a class="action-card" href="{{ url_for('decrypt') }}">
-        <span>Decrypt File</span>
-        <strong>Fingerprint required</strong>
-    </a>
-    <a class="action-card" href="{{ url_for('logs') }}">
-        <span>View Logs</span>
-        <strong>Audit trail</strong>
-    </a>
-    <a class="action-card" href="{{ url_for('add_fingerprint') }}">
-        <span>Add Fingerprint</span>
-        <strong>Multiple enrolled fingers</strong>
-    </a>
-    <a class="action-card" href="{{ url_for('attack') }}">
-        <span>Attack Simulation</span>
-        <strong>3 failures block user</strong>
-    </a>
+<section class="dashboard-modules">
+    <div class="module-group">
+        <h2>Main workflow</h2>
+        <div class="module-list">
+            <a href="{{ url_for('encrypt') }}"><span>Encrypt file</span><strong>AES-256-GCM</strong></a>
+            <a href="{{ url_for('decrypt') }}"><span>Decrypt file</span><strong>Fingerprint required</strong></a>
+            <a href="{{ url_for('add_fingerprint') }}"><span>Add fingerprint</span><strong>Multi-fingerprint user</strong></a>
+            <a href="{{ url_for('logs') }}"><span>View logs</span><strong>Audit trail</strong></a>
+        </div>
+    </div>
+
+    <div class="module-group">
+        <h2>Validation pages</h2>
+        <div class="module-list">
+            <a href="{{ url_for('biometric_analysis') }}"><span>Biometric analysis</span><strong>Nref, Ntest, score</strong></a>
+            <a href="{{ url_for('performance') }}"><span>Performance</span><strong>FAR / FRR threshold</strong></a>
+            <a href="{{ url_for('watermark') }}"><span>Watermark</span><strong>Extract and validate</strong></a>
+            <a href="{{ url_for('watermark_evaluation') }}"><span>Watermark metrics</span><strong>PSNR, BER, NC</strong></a>
+        </div>
+    </div>
+
+    <div class="module-group">
+        <h2>Security demo</h2>
+        <div class="module-list">
+            <a href="{{ url_for('attack') }}"><span>Login attack</span><strong>3 failures block user</strong></a>
+            <a href="{{ url_for('watermark_attacks') }}"><span>Watermark attacks</span><strong>JPEG, noise, crop</strong></a>
+            <a href="{{ url_for('database_attack') }}"><span>Database attack</span><strong>Stolen DB view</strong></a>
+            <a href="{{ url_for('security_model') }}"><span>Security model</span><strong>DICAN mapping</strong></a>
+            <a href="{{ url_for('rgpd') }}"><span>RGPD</span><strong>Consent and privacy</strong></a>
+        </div>
+    </div>
 </section>
 
 <section class="panel wide">

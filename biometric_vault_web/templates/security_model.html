@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Course Security Model</p>
+        <h1>DICAN and biometric protection</h1>
+        <p class="lead">This page maps the security principles from the course to the concrete controls implemented in the application.</p>
+    </div>
+</section>
+
+<section class="panel wide">
+    <table>
+        <thead>
+            <tr>
+                <th>Principle</th>
+                <th>Course idea</th>
+                <th>Implementation in this app</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Confidentiality</td>
+                <td>Protect sensitive data from unauthorized reading.</td>
+                <td>Files are encrypted with AES-256-GCM before storage.</td>
+            </tr>
+            <tr>
+                <td>Integrity</td>
+                <td>Detect unauthorized modification.</td>
+                <td>AES-GCM authenticates encrypted files, logs are chained with hashes, and fingerprints include SHA-256 protected templates.</td>
+            </tr>
+            <tr>
+                <td>Control access</td>
+                <td>Only authorized users can reach protected resources.</td>
+                <td>Session login is required, encrypted file selection is checked per user, and watermarked images are served only to their owner.</td>
+            </tr>
+            <tr>
+                <td>Authentication</td>
+                <td>Verify identity using a biometric characteristic.</td>
+                <td>Fingerprint upload simulates acquisition, then preprocessing, minutiae matching, score, threshold and decision are applied.</td>
+            </tr>
+            <tr>
+                <td>Non-repudiation / Traceability</td>
+                <td>Keep evidence of important actions.</td>
+                <td>Registration, login, encryption, decryption, attack simulations and watermark checks are stored in security logs.</td>
+            </tr>
+            <tr>
+                <td>Privacy / RGPD</td>
+                <td>Biometric data must be justified, protected and transparent.</td>
+                <td>Registration requires consent; raw images are not used as login credentials; the app explains the processing purpose.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+{% endblock %}

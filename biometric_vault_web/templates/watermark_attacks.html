@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Watermark Robustness</p>
+        <h1>Attack simulation</h1>
+        <p class="lead">Apply image attacks and test if the hidden LSB watermark can still be extracted.</p>
+    </div>
+</section>
+
+<form class="panel form-page" method="post">
+    <label for="fingerprint_id">Watermarked fingerprint</label>
+    <select id="fingerprint_id" name="fingerprint_id" required>
+        {% for fingerprint in fingerprints %}
+            <option value="{{ fingerprint.id }}">{{ fingerprint.label or "Fingerprint" }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="attack_name">Attack type</label>
+    <select id="attack_name" name="attack_name">
+        {% for attack in attacks %}
+            <option value="{{ attack }}">{{ attack|title }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Run attack</button>
+</form>
+
+{% if result %}
+<section class="analysis-grid wide">
+    <div class="panel">
+        <h2>Attacked image</h2>
+        <img class="preview-image" src="{{ result.image_url }}" alt="Attacked fingerprint">
+    </div>
+    <div class="panel">
+        <h2>Extraction result</h2>
+        <p>Attack: <strong>{{ result.attack_name }}</strong></p>
+        <p class="{{ 'ok-text' if result.valid else 'danger-text' }}">{{ "VALID" if result.valid else "CORRUPTED" }}</p>
+        <div class="metric-list">
+            <span>BER</span><strong>{{ result.ber }}</strong>
+            <span>NC</span><strong>{{ result.nc }}</strong>
+        </div>
+        <pre class="code-box">{{ result.message }}</pre>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

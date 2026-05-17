@@ -215,6 +215,19 @@ def list_files(user_id: int) -> list[dict]:
         return [dict(row) for row in rows]
 
 
+def list_all_files() -> list[dict]:
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT encrypted_files.*, users.username
+            FROM encrypted_files
+            LEFT JOIN users ON users.id = encrypted_files.user_id
+            ORDER BY encrypted_files.created_at DESC
+            """
+        ).fetchall()
+        return [dict(row) for row in rows]
+
+
 def get_file_for_user(file_id: int, user_id: int) -> dict | None:
     with get_connection() as connection:
         row = connection.execute(
@@ -222,6 +235,19 @@ def get_file_for_user(file_id: int, user_id: int) -> dict | None:
             (file_id, user_id),
         ).fetchone()
         return row_to_dict(row)
+
+
+def list_users_for_attack_demo() -> list[dict]:
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT id, username, fingerprint_hash, watermarked_image_path,
+                   failed_attempts, is_blocked, created_at
+            FROM users
+            ORDER BY created_at DESC
+            """
+        ).fetchall()
+        return [dict(row) for row in rows]
 
 
 def create_log(username: str | None, operation: str, status: str, message: str, log_hash: str) -> int:

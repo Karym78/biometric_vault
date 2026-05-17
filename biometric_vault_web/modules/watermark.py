@@ -12,6 +12,16 @@ def _message_to_bits(message: str) -> list[int]:
     return [(byte >> bit) & 1 for byte in data for bit in range(7, -1, -1)]
 
 
+def _bits_to_bytes(bits: list[int]) -> bytes:
+    output = bytearray()
+    for index in range(0, len(bits), 8):
+        byte = 0
+        for bit in bits[index : index + 8]:
+            byte = (byte << 1) | bit
+        output.append(byte)
+    return bytes(output)
+
+
 def embed_watermark(image_path: str | Path, message: str) -> Path:
     source = Path(image_path)
     image = Image.open(source).convert("RGB")
@@ -36,3 +46,27 @@ def embed_watermark(image_path: str | Path, message: str) -> Path:
     destination = WATERMARKED_DIR / f"{source.stem}_{uuid4().hex[:10]}.png"
     image.save(destination)
     return destination
+
+
+def extract_watermark(image_path: str | Path) -> str:
+    image = Image.open(image_path).convert("RGB")
+    bits = []
+    for pixel in image.getdata():
+        for value in pixel:
+            bits.append(value & 1)
+
+    if len(bits) < 32:
+        raise ValueError("Watermark is missing or corrupted.")
+    payload_length = int.from_bytes(_bits_to_bytes(bits[:32]), "big")
+    payload_bit_count = payload_length * 8
+    end_index = 32 + payload_bit_count
+    if payload_length <= 0 or end_index > len(bits):
+        raise ValueError("Watermark is missing or corrupted.")
+    payload = _bits_to_bytes(bits[32:end_index])
+    return payload.decode("utf-8")
+
+
+def validate_watermark(image_path: str | Path, expected_owner: str) -> tuple[bool, str]:
+    message = extract_watermark(image_path)
+    owner_markers = (f"owner:{expected_owner}", f"OWNER:{expected_owner}")
+    return any(marker in message for marker in owner_markers), message

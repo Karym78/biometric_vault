@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Database Theft Simulation</p>
+        <h1>What an attacker sees</h1>
+        <p class="lead">This page demonstrates that stolen SQLite rows expose hashes and encrypted paths, not plaintext protected files.</p>
+    </div>
+</section>
+
+<section class="panel wide">
+    <h2>Users table exposure</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Fingerprint hash</th>
+                <th>Watermarked path</th>
+                <th>Blocked</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in users %}
+            <tr>
+                <td>{{ row.username }}</td>
+                <td>{{ row.fingerprint_hash }}</td>
+                <td>{{ row.watermarked_image_path }}</td>
+                <td>{{ row.is_blocked }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel wide">
+    <h2>Encrypted files exposure</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Original filename</th>
+                <th>Encrypted path</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in files %}
+            <tr>
+                <td>{{ row.username }}</td>
+                <td>{{ row.original_filename }}</td>
+                <td>{{ row.encrypted_path }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel wide">
+    <h2>Recent logs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Status</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in logs %}
+            <tr>
+                <td>{{ row.operation }}</td>
+                <td>{{ row.status }}</td>
+                <td>{{ row.message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="form-note">Even with this database view, the attacker still needs a valid biometric match and the encrypted file key material.</p>
+</section>
+{% endblock %}

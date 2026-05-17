@@ -18,8 +18,13 @@
         <label for="fingerprint">Fingerprint image</label>
         <input id="fingerprint" name="fingerprint" type="file" accept="image/*" required>
 
+        <label class="check-row">
+            <input name="consent" type="checkbox" required>
+            <span>I consent to biometric data processing for this university demo.</span>
+        </label>
+
         <button type="submit">Create account</button>
-        <p class="form-note">The raw image is not used for login; the system stores a protected hash and a watermarked copy.</p>
+        <p class="form-note">The raw image is not used for login; the system stores a protected hash and a watermarked copy. <a href="{{ url_for('rgpd') }}">RGPD details</a></p>
     </form>
 </section>
 {% endblock %}

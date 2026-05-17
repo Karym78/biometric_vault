@@ -1,9 +1,9 @@
 :root {
     color-scheme: dark;
-    --bg: #07131f;
-    --bg-soft: #0d1d2b;
-    --surface: rgba(13, 29, 43, 0.88);
-    --surface-strong: #12283a;
+    --bg: #061018;
+    --bg-soft: #0b1824;
+    --surface: rgba(12, 25, 36, 0.9);
+    --surface-strong: #102433;
     --ink: #edf7ff;
     --muted: #9fb3c6;
     --line: rgba(129, 226, 229, 0.18);
@@ -13,7 +13,7 @@
     --success: #7cf09a;
     --danger: #ff6f76;
     --warning: #ffd36a;
-    --shadow: 0 22px 55px rgba(0, 0, 0, 0.28);
+    --shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
 }
 
 * {
@@ -91,8 +91,8 @@ nav a:hover {
 }
 
 .page {
-    width: min(1160px, calc(100% - 32px));
-    margin: 34px auto 48px;
+    width: min(1180px, calc(100% - 32px));
+    margin: 30px auto 48px;
 }
 
 .auth-grid {
@@ -228,7 +228,8 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
     display: block;
     width: 100%;
     margin: 0 0 18px;
@@ -241,13 +242,33 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     outline: 3px solid rgba(53, 208, 212, 0.15);
     border-color: var(--primary);
 }
 
 input[type="file"] {
     padding: 10px;
+}
+
+.check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 4px 0 18px;
+    color: var(--muted);
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.check-row input {
+    width: auto;
+    margin: 4px 0 0;
+}
+
+.form-note a {
+    color: var(--accent);
 }
 
 button {
@@ -288,6 +309,53 @@ button:hover {
     margin-bottom: 22px;
 }
 
+.dashboard-hero {
+    min-height: 300px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(18, 40, 58, 0.94), rgba(6, 16, 24, 0.86)),
+        radial-gradient(circle at 84% 20%, rgba(53, 208, 212, 0.18), transparent 34%);
+    box-shadow: var(--shadow);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.scanner-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(53, 208, 212, 0.45);
+    border-radius: 8px;
+    background:
+        linear-gradient(rgba(53, 208, 212, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(53, 208, 212, 0.06) 1px, transparent 1px),
+        rgba(2, 12, 20, 0.52);
+    background-size: 18px 18px;
+    overflow: hidden;
+}
+
+.scanner-card img {
+    width: 68%;
+    height: 68%;
+    object-fit: contain;
+    opacity: 0.72;
+    filter: invert(1) sepia(1) saturate(3) hue-rotate(125deg);
+}
+
 .primary-link-button,
 .small-link-button {
     display: inline-flex;
@@ -312,6 +380,12 @@ button:hover {
     font-size: 0.9rem;
 }
 
+.ghost-button {
+    border: 1px solid var(--line);
+    background: rgba(53, 208, 212, 0.08);
+    color: var(--ink);
+}
+
 .panel-title-row {
     display: flex;
     align-items: center;
@@ -326,13 +400,12 @@ button:hover {
 
 .scanner-status {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 14px;
     margin-bottom: 18px;
 }
 
-.scanner-status div,
-.action-card {
+.scanner-status div {
     border: 1px solid var(--line);
     border-radius: 8px;
     background: rgba(13, 29, 43, 0.82);
@@ -343,8 +416,7 @@ button:hover {
     padding: 16px;
 }
 
-.scanner-status span,
-.action-card strong {
+.scanner-status span {
     display: block;
     color: var(--muted);
     font-size: 0.88rem;
@@ -357,31 +429,57 @@ button:hover {
     font-size: 1.15rem;
 }
 
-.actions {
+.dashboard-modules {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
 }
 
-.action-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 122px;
+.module-group {
     padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(12, 25, 36, 0.78);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.module-group h2 {
+    margin-bottom: 12px;
+}
+
+.module-list {
+    display: grid;
+    gap: 8px;
+}
+
+.module-list a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    min-height: 54px;
+    padding: 10px 12px;
+    border: 1px solid rgba(129, 226, 229, 0.12);
+    border-radius: 8px;
+    background: rgba(4, 14, 24, 0.52);
     color: var(--ink);
     text-decoration: none;
-    transition: transform 140ms ease, border-color 140ms ease;
 }
 
-.action-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(53, 208, 212, 0.52);
+.module-list a:hover {
+    border-color: rgba(53, 208, 212, 0.45);
+    background: rgba(53, 208, 212, 0.08);
 }
 
-.action-card span {
+.module-list span {
     font-weight: 900;
-    font-size: 1.08rem;
+}
+
+.module-list strong {
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: right;
 }
 
 table {
@@ -412,6 +510,56 @@ td {
 .empty {
     color: var(--muted);
     margin: 0;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.preview-image {
+    display: block;
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background:
+        linear-gradient(rgba(53, 208, 212, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(53, 208, 212, 0.05) 1px, transparent 1px),
+        rgba(2, 12, 20, 0.52);
+    background-size: 18px 18px;
+    padding: 12px;
+}
+
+.metric-list {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+}
+
+.metric-list span {
+    color: var(--muted);
+}
+
+.metric-list strong,
+.ok-text {
+    color: var(--success);
+}
+
+.danger-text {
+    color: var(--danger);
+}
+
+.code-box {
+    white-space: pre-wrap;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    background: rgba(4, 14, 24, 0.7);
+    color: #dbeaf2;
 }
 
 .messages {
@@ -474,7 +622,8 @@ td {
     }
 
     .auth-grid,
-    .actions,
+    .dashboard-hero,
+    .dashboard-modules,
     .scanner-status {
         grid-template-columns: 1fr;
     }

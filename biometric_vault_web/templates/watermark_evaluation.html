@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-head">
+    <div>
+        <p class="eyebrow">Watermark Evaluation</p>
+        <h1>PSNR, BER, NC and payload</h1>
+        <p class="lead">Upload the original fingerprint used during registration, then compare it with the stored watermarked image.</p>
+    </div>
+</section>
+
+<form class="panel form-page" method="post" enctype="multipart/form-data">
+    <label for="fingerprint_id">Watermarked fingerprint</label>
+    <select id="fingerprint_id" name="fingerprint_id" required>
+        {% for fingerprint in fingerprints %}
+            <option value="{{ fingerprint.id }}">{{ fingerprint.label or "Fingerprint" }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="original">Original fingerprint image</label>
+    <input id="original" name="original" type="file" accept="image/*" required>
+
+    <button type="submit">Calculate metrics</button>
+</form>
+
+{% if metrics %}
+<section class="analysis-grid wide">
+    <div class="panel">
+        <h2>Watermarked image</h2>
+        <img class="preview-image" src="{{ image_url }}" alt="Watermarked fingerprint">
+    </div>
+    <div class="panel">
+        <h2>Metrics</h2>
+        <div class="metric-list">
+            <span>PSNR</span><strong>{{ metrics.psnr }} dB</strong>
+            <span>BER</span><strong>{{ metrics.ber }}</strong>
+            <span>NC</span><strong>{{ metrics.nc }}</strong>
+            <span>Payload</span><strong>{{ metrics.payload }} bits</strong>
+        </div>
+        <pre class="code-box">{{ metrics.message }}</pre>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
